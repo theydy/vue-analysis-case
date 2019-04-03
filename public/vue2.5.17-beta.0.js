@@ -4655,6 +4655,7 @@ function initMixin (Vue) {
 }
 
 function initInternalComponent (vm, options) {
+  debugger
   var opts = vm.$options = Object.create(vm.constructor.options);
   // doing this because it's faster than dynamic enumeration.
   var parentVnode = options._parentVnode;
@@ -5622,6 +5623,7 @@ function createPatchFunction (backend) {
       // component also has set the placeholder vnode's elm.
       // in that case we can just return the element and be done.
       if (isDef(vnode.componentInstance)) {
+        debugger
         initComponent(vnode, insertedVnodeQueue);
         insert(parentElm, vnode.elm, refElm);
         if (isTrue(isReactivated)) {
@@ -6088,6 +6090,7 @@ function createPatchFunction (backend) {
   }
 
   return function patch (oldVnode, vnode, hydrating, removeOnly) {
+    debugger
     if (isUndef(vnode)) {
       if (isDef(oldVnode)) { invokeDestroyHook(oldVnode); }
       return

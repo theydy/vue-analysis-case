@@ -1454,6 +1454,7 @@ function mergeOptions (
   child,
   vm
 ) {
+  debugger
   {
     checkComponents(child);
   }

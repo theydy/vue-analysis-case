@@ -4448,6 +4448,7 @@ function _createElement (
     }
   } else {
     // direct component options / constructor
+    debugger
     vnode = createComponent(tag, data, context, children);
   }
   if (Array.isArray(vnode)) {

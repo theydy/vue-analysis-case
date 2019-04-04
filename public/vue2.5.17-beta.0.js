@@ -2292,6 +2292,7 @@ function resolveAsyncComponent (
   baseCtor,
   context
 ) {
+  debugger
   if (isTrue(factory.error) && isDef(factory.errorComp)) {
     return factory.errorComp
   }
@@ -4224,6 +4225,7 @@ function createComponent (
   // async component
   var asyncFactory;
   if (isUndef(Ctor.cid)) {
+    debugger
     asyncFactory = Ctor;
     Ctor = resolveAsyncComponent(asyncFactory, baseCtor, context);
     if (Ctor === undefined) {

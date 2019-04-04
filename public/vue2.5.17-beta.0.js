@@ -1506,6 +1506,7 @@ function resolveAsset (
   if (typeof id !== 'string') {
     return
   }
+  debugger
   var assets = options[type];
   // check local registration variations first
   if (hasOwn(assets, id)) { return assets[id] }
@@ -4614,6 +4615,7 @@ function initMixin (Vue) {
     // a flag to avoid this being observed
     vm._isVue = true;
     // merge options
+    debugger
     if (options && options._isComponent) {
       // optimize internal component instantiation
       // since dynamic options merging is pretty slow, and none of the
@@ -4879,6 +4881,7 @@ function initAssetRegisters (Vue) {
       id,
       definition
     ) {
+      debugger
       if (!definition) {
         return this.options[type + 's'][id]
       } else {

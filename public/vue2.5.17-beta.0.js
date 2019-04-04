@@ -5593,6 +5593,7 @@ function createPatchFunction (backend) {
       {
         createChildren(vnode, children, insertedVnodeQueue);
         if (isDef(data)) {
+          debugger
           invokeCreateHooks(vnode, insertedVnodeQueue);
         }
         insert(parentElm, vnode.elm, refElm);
@@ -5639,6 +5640,7 @@ function createPatchFunction (backend) {
     }
     vnode.elm = vnode.componentInstance.$el;
     if (isPatchable(vnode)) {
+      debugger
       invokeCreateHooks(vnode, insertedVnodeQueue);
       setScope(vnode);
     } else {

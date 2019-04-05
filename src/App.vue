@@ -28,6 +28,12 @@ export default {
     toggle () {
       this.flag = !this.flag
     }
+  },
+  watch: {
+    // 触发循环更新 bug
+    msg () {
+      this.msg = Math.random()
+    }
   }
 }
 </script>

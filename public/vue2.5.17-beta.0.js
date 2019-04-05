@@ -2977,6 +2977,7 @@ function flushSchedulerQueue () {
   // do not cache length because more watchers might be pushed
   // as we run existing watchers
   for (index = 0; index < queue.length; index++) {
+    debugger
     watcher = queue[index];
     if (watcher.before) {
       watcher.before();
@@ -3053,6 +3054,7 @@ function callActivatedHooks (queue) {
  * pushed when the queue is being flushed.
  */
 function queueWatcher (watcher) {
+  debugger
   var id = watcher.id;
   if (has[id] == null) {
     has[id] = true;

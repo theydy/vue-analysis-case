@@ -3048,6 +3048,7 @@ function callActivatedHooks (queue) {
  * pushed when the queue is being flushed.
  */
 function queueWatcher (watcher) {
+  debugger
   var id = watcher.id;
   if (has[id] == null) {
     has[id] = true;

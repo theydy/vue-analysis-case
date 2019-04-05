@@ -990,6 +990,7 @@ function defineReactive (
     enumerable: true,
     configurable: true,
     get: function reactiveGetter () {
+      debugger
       var value = getter ? getter.call(obj) : val;
       if (Dep.target) {
         dep.depend();
@@ -1003,6 +1004,7 @@ function defineReactive (
       return value
     },
     set: function reactiveSetter (newVal) {
+      debugger
       var value = getter ? getter.call(obj) : val;
       /* eslint-disable no-self-compare */
       if (newVal === value || (newVal !== newVal && value !== value)) {
@@ -2776,6 +2778,7 @@ function mountComponent (
     };
   } else {
     updateComponent = function () {
+      debugger
       vm._update(vm._render(), hydrating);
     };
   }
@@ -2783,6 +2786,7 @@ function mountComponent (
   // we set this to vm._watcher inside the watcher's constructor
   // since the watcher's initial patch may call $forceUpdate (e.g. inside child
   // component's mounted hook), which relies on vm._watcher being already defined
+  debugger
   new Watcher(vm, updateComponent, noop, {
     before: function before () {
       if (vm._isMounted) {
@@ -2956,6 +2960,7 @@ function resetSchedulerState () {
  * Flush both queues and run the watchers.
  */
 function flushSchedulerQueue () {
+  debugger
   flushing = true;
   var watcher, id;
 

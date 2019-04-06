@@ -3328,6 +3328,7 @@ function proxy (target, sourceKey, key) {
 }
 
 function initState (vm) {
+  debugger
   vm._watchers = [];
   var opts = vm.$options;
   if (opts.props) { initProps(vm, opts.props); }
@@ -3337,6 +3338,7 @@ function initState (vm) {
   } else {
     observe(vm._data = {}, true /* asRootData */);
   }
+  debugger
   if (opts.computed) { initComputed(vm, opts.computed); }
   if (opts.watch && opts.watch !== nativeWatch) {
     initWatch(vm, opts.watch);
@@ -3478,6 +3480,7 @@ function initComputed (vm, computed) {
     // component prototype. We only need to define computed properties defined
     // at instantiation here.
     if (!(key in vm)) {
+      debugger
       defineComputed(vm, key, userDef);
     } else {
       if (key in vm.$data) {
@@ -4618,6 +4621,7 @@ function initMixin (Vue) {
       // optimize internal component instantiation
       // since dynamic options merging is pretty slow, and none of the
       // internal component options needs special treatment.
+      debugger
       initInternalComponent(vm, options);
     } else {
       vm.$options = mergeOptions(
@@ -4805,6 +4809,7 @@ function initExtend (Vue) {
     }
 
     var Sub = function VueComponent (options) {
+      debugger
       this._init(options);
     };
     Sub.prototype = Object.create(Super.prototype);
@@ -4822,6 +4827,7 @@ function initExtend (Vue) {
     if (Sub.options.props) {
       initProps$1(Sub);
     }
+    debugger
     if (Sub.options.computed) {
       initComputed$1(Sub);
     }

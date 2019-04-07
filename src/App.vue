@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <div>{{ name }}</div>
-    <button @click="change">change</button>
-    <button @click="changeLast">change last name</button>
+    <div>{{ a }}</div>
+    <div>{{ b }}</div>
+    <button @click="changeA">change</button>
   </div>
 </template>
 
@@ -11,49 +11,25 @@ export default {
   name: 'app',
   data () {
     return {
-      firstName: 'Mo',
-      lastName: 'Lei',
-      useless: 0,
-      nested: {
-        a: {
-          b: 1
-        }
-      }
-    }
-  },
-  computed: {
-    name () {
-      if (this.useless > 0) {
-        return this.firstName + ' ' + this.lastName
-      }
-      return 'please click change'
+      a: 1,
+      b: 2
     }
   },
   methods: {
-    change () {
-      this.useless++
-      this.nested.a.b = 2
+    changeA () {
+      this.a = Math.random()
     },
-    changeLast () {
-      this.lastName = Math.random()
+    changeB () {
+      this.b = Math.random()
     }
   },
+  mounted () {
+    this.$watch('a', 'changeB')
+    // this.$watch 使用函数名无效
+  },
   watch: {
-    useless (val) {
-      console.log('useless: ', val)
-    },
-    name: {
-      immediate: true,
-      handler (val) {
-        console.log('name: ', val)
-      }
-    },
-    nested: {
-      deep: true,
-      handler (val) {
-        console.log('nested: ', val.a.b)
-      }
-    }
+    // a: 'changeB'
+    // 可以使用函数名
   }
 }
 </script>

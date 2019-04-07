@@ -1018,7 +1018,6 @@ function defineReactive (
         val = newVal;
       }
       childOb = !shallow && observe(newVal);
-      debugger
       dep.notify();
     }
   });
@@ -3153,7 +3152,6 @@ Watcher.prototype.get = function get () {
     // "touch" every property so they are all tracked as
     // dependencies for deep watching
     if (this.deep) {
-      debugger
       traverse(value);
     }
     popTarget();
@@ -3341,7 +3339,6 @@ function initState (vm) {
   }
   if (opts.computed) { initComputed(vm, opts.computed); }
   if (opts.watch && opts.watch !== nativeWatch) {
-    debugger
     initWatch(vm, opts.watch);
   }
 }
@@ -3627,6 +3624,10 @@ function stateMixin (Vue) {
     if (isPlainObject(cb)) {
       return createWatcher(vm, expOrFn, cb, options)
     }
+    // 修改后使得 $watch 也可以使用函数名定义回调
+    // if (typeof cb === 'string' || isPlainObject(cb)) {
+    //   return createWatcher(vm, expOrFn, cb, options)
+    // }
     options = options || {};
     options.user = true;
     var watcher = new Watcher(vm, expOrFn, cb, options);

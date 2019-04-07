@@ -13,7 +13,12 @@ export default {
     return {
       firstName: 'Mo',
       lastName: 'Lei',
-      useless: 0
+      useless: 0,
+      nested: {
+        a: {
+          b: 1
+        }
+      }
     }
   },
   computed: {
@@ -27,9 +32,27 @@ export default {
   methods: {
     change () {
       this.useless++
+      this.nested.a.b = 2
     },
     changeLast () {
       this.lastName = Math.random()
+    }
+  },
+  watch: {
+    useless (val) {
+      console.log('useless: ', val)
+    },
+    name: {
+      immediate: true,
+      handler (val) {
+        console.log('name: ', val)
+      }
+    },
+    nested: {
+      deep: true,
+      handler (val) {
+        console.log('nested: ', val.a.b)
+      }
     }
   }
 }

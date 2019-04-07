@@ -3624,6 +3624,7 @@ function stateMixin (Vue) {
     if (isPlainObject(cb)) {
       return createWatcher(vm, expOrFn, cb, options)
     }
+    // debugger
     // 修改后使得 $watch 也可以使用函数名定义回调
     // if (typeof cb === 'string' || isPlainObject(cb)) {
     //   return createWatcher(vm, expOrFn, cb, options)

@@ -1003,6 +1003,7 @@ function defineReactive (
       return value
     },
     set: function reactiveSetter (newVal) {
+      debugger
       var value = getter ? getter.call(obj) : val;
       /* eslint-disable no-self-compare */
       if (newVal === value || (newVal !== newVal && value !== value)) {
@@ -2808,6 +2809,7 @@ function updateChildComponent (
   parentVnode,
   renderChildren
 ) {
+  debugger
   {
     isUpdatingChildComponent = true;
   }
@@ -6088,6 +6090,7 @@ function createPatchFunction (backend) {
   }
 
   return function patch (oldVnode, vnode, hydrating, removeOnly) {
+    debugger
     if (isUndef(vnode)) {
       if (isDef(oldVnode)) { invokeDestroyHook(oldVnode); }
       return

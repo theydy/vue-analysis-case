@@ -1,16 +1,27 @@
 <template>
   <div id="app">
-    {{ message }}
+    <HelloWorld :flag="flag"></HelloWorld>
+    <button @click="toggle">toggle</button>
   </div>
 </template>
 
 <script>
+import HelloWorld from './components/HelloWorld'
+
 export default {
   name: 'app',
   data () {
     return {
-      message: 'hello world'
+      flag: true
     }
+  },
+  methods: {
+    toggle () {
+      this.flag = !this.flag
+    }
+  },
+  components: {
+    HelloWorld
   }
 }
 </script>

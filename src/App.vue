@@ -1,27 +1,31 @@
 <template>
   <div id="app">
-    <HelloWorld :flag="flag"></HelloWorld>
-    <button @click="toggle">toggle</button>
+    <div>
+      <ul>
+        <li v-for="item in items" :key="item.id">{{ item.val }}</li>
+      </ul>
+    </div>
+    <button @click="change">change</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
-
 export default {
   name: 'app',
   data () {
     return {
-      flag: true
+      items: [
+        {id: 0, val: 'A'},
+        {id: 1, val: 'B'},
+        {id: 2, val: 'C'},
+        {id: 3, val: 'D'}
+      ]
     }
   },
   methods: {
-    toggle () {
-      this.flag = !this.flag
+    change () {
+      this.items.reverse().push({id: 4, val: 'E'})
     }
-  },
-  components: {
-    HelloWorld
   }
 }
 </script>

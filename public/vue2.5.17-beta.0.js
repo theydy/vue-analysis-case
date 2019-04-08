@@ -1003,7 +1003,6 @@ function defineReactive (
       return value
     },
     set: function reactiveSetter (newVal) {
-      debugger
       var value = getter ? getter.call(obj) : val;
       /* eslint-disable no-self-compare */
       if (newVal === value || (newVal !== newVal && value !== value)) {
@@ -5455,6 +5454,7 @@ var emptyNode = new VNode('', {}, []);
 var hooks = ['create', 'activate', 'update', 'remove', 'destroy'];
 
 function sameVnode (a, b) {
+  debugger
   return (
     a.key === b.key && (
       (
@@ -5807,6 +5807,7 @@ function createPatchFunction (backend) {
   }
 
   function updateChildren (parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly) {
+    debugger
     var oldStartIdx = 0;
     var newStartIdx = 0;
     var oldEndIdx = oldCh.length - 1;
@@ -5846,6 +5847,7 @@ function createPatchFunction (backend) {
         newEndVnode = newCh[--newEndIdx];
       } else if (sameVnode(oldEndVnode, newStartVnode)) { // Vnode moved left
         patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue);
+        debugger
         canMove && nodeOps.insertBefore(parentElm, oldEndVnode.elm, oldStartVnode.elm);
         oldEndVnode = oldCh[--oldEndIdx];
         newStartVnode = newCh[++newStartIdx];
@@ -5904,6 +5906,7 @@ function createPatchFunction (backend) {
   }
 
   function patchVnode (oldVnode, vnode, insertedVnodeQueue, removeOnly) {
+    debugger
     if (oldVnode === vnode) {
       return
     }

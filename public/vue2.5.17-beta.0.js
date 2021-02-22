@@ -873,9 +873,10 @@ function toggleObserving (value) {
  * object's property keys into getter/setters that
  * collect dependencies and dispatch updates.
  */
-var Observer = function Observer (value) {
+var Observer = function Observer (value, dep) {
   this.value = value;
-  this.dep = new Dep();
+  // this.dep = new Dep();
+  this.dep = dep;
   this.vmCount = 0;
   def(value, '__ob__', this);
   if (Array.isArray(value)) {
@@ -939,7 +940,7 @@ function copyAugment (target, src, keys) {
  * returns the new observer if successfully observed,
  * or the existing observer if the value already has one.
  */
-function observe (value, asRootData) {
+function observe (value, asRootData, dep) {
   if (!isObject(value) || value instanceof VNode) {
     return
   }
@@ -953,7 +954,7 @@ function observe (value, asRootData) {
     Object.isExtensible(value) &&
     !value._isVue
   ) {
-    ob = new Observer(value);
+    ob = new Observer(value, dep);
   }
   if (asRootData && ob) {
     ob.vmCount++;
@@ -984,8 +985,8 @@ function defineReactive (
   if ((!getter || setter) && arguments.length === 2) {
     val = obj[key];
   }
-
-  var childOb = !shallow && observe(val);
+  // Observer 中使用同一个 dep，而不是新 dep
+  !shallow && observe(val, false, dep);
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
@@ -993,12 +994,12 @@ function defineReactive (
       var value = getter ? getter.call(obj) : val;
       if (Dep.target) {
         dep.depend();
-        if (childOb) {
-          childOb.dep.depend();
-          if (Array.isArray(value)) {
-            dependArray(value);
-          }
-        }
+        // if (childOb) {
+        //   childOb.dep.depend();
+        //   if (Array.isArray(value)) {
+        //     dependArray(value);
+        //   }
+        // }
       }
       return value
     },
@@ -1017,7 +1018,7 @@ function defineReactive (
       } else {
         val = newVal;
       }
-      childOb = !shallow && observe(newVal);
+      !shallow && observe(newVal, false, dep);
       dep.notify();
     }
   });

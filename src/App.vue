@@ -1,15 +1,32 @@
 <template>
   <div id="app">
-    {{ message }}
+    <keep-alive>
+      <component 
+        :is="compName"
+      />
+    </keep-alive>
+    <button @click="change">switch</button>
   </div>
 </template>
 
 <script>
+import A from './components/A';
+import B from './components/B';
+
 export default {
   name: 'app',
+  components: {
+    A,
+    B,
+  },
   data () {
     return {
-      message: 'hello world'
+      compName: 'A'
+    }
+  },
+  methods: {
+    change() {
+      this.compName = this.compName === 'A' ? 'B' : 'A';
     }
   }
 }

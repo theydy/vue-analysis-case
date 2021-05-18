@@ -3109,6 +3109,12 @@
   // inline hooks to be invoked on component VNodes during patch
   var componentVNodeHooks = {
     init: function init (vnode, hydrating) {
+      /**
+       * 注意这里如果是已经被 keep-alive 缓存的组件和普通组件执行过程有很大不同。
+       * 缓存组件只需要执行 prepatch 钩子，没有创建实例，挂载的过程。
+       * 这里 componentInstance 和 keepAlive 都要满足
+       */
+      debugger
       if (
         vnode.componentInstance &&
         !vnode.componentInstance._isDestroyed &&
@@ -3127,6 +3133,12 @@
     },
 
     prepatch: function prepatch (oldVnode, vnode) {
+      /**
+       * 在这个例子中，App.vue 触发更新，碰到 keep-alive 组件，因为前后 keep-alive 占位 vnode 没变，所以走 patchVnode，
+       * 在 patchVnode 中进入 prepatch 钩子，执行 updateChildComponent。因为 keep-alive 必有 slot，所以需要 $fourceUpdate。
+       * 重新进入 keep-alive render 函数中，此时找到缓存的子 vnode，
+       * 进入子 vnode render 过程，init -> prepatch -> updateChildComponent
+       */
       debugger
       var options = vnode.componentOptions;
       var child = vnode.componentInstance = oldVnode.componentInstance;
@@ -3140,6 +3152,7 @@
     },
 
     insert: function insert (vnode) {
+      debugger
       var context = vnode.context;
       var componentInstance = vnode.componentInstance;
       if (!componentInstance._isMounted) {
@@ -3161,6 +3174,7 @@
     },
 
     destroy: function destroy (vnode) {
+      debugger
       var componentInstance = vnode.componentInstance;
       if (!componentInstance._isDestroyed) {
         if (!vnode.data.keepAlive) {
@@ -4191,11 +4205,13 @@
       for (var i = 0; i < vm.$children.length; i++) {
         activateChildComponent(vm.$children[i]);
       }
+      debugger
       callHook(vm, 'activated');
     }
   }
 
   function deactivateChildComponent (vm, direct) {
+    debugger
     if (direct) {
       vm._directInactive = true;
       if (isInInactiveTree(vm)) {
@@ -5325,6 +5341,9 @@
 
     render: function render () {
       var slot = this.$slots.default;
+      /**
+       * getFirstComponentChild 找到第一个组件节点
+       */
       var vnode = getFirstComponentChild(slot);
       var componentOptions = vnode && vnode.componentOptions;
       if (componentOptions) {
@@ -5333,6 +5352,10 @@
         var ref = this;
         var include = ref.include;
         var exclude = ref.exclude;
+
+        /**
+         * 不匹配直接返回 vnode
+         */
         if (
           // not included
           (include && (!name || !matches(include, name))) ||
@@ -5345,17 +5368,31 @@
         var ref$1 = this;
         var cache = ref$1.cache;
         var keys = ref$1.keys;
+
+        /**
+         * 优先使用 key 属性做为缓存的 keys，否则使用 cid + tag 拼接做为 keys
+         */
         var key = vnode.key == null
           // same constructor may get registered as different local components
           // so cid alone is not enough (#3269)
           ? componentOptions.Ctor.cid + (componentOptions.tag ? ("::" + (componentOptions.tag)) : '')
           : vnode.key;
+
+        
         if (cache[key]) {
+          /**
+           * 命中缓存，直接将缓存的 vnode 上的 instance 赋给新 vnode
+           * 接着更新当前组件的调用顺序
+           */
           vnode.componentInstance = cache[key].componentInstance;
           // make current key freshest
           remove(keys, key);
           keys.push(key);
         } else {
+          /**
+           * 没有命中缓存，缓存 vnode
+           * LRU 最近最少使用 根据 max 更新缓存 map
+           */
           cache[key] = vnode;
           keys.push(key);
           // prune oldest entry
@@ -5364,8 +5401,17 @@
           }
         }
 
+        /**
+         * 打上 keepAlive 标记
+         * 在 prepatch 钩子中用到
+         */
         vnode.data.keepAlive = true;
       }
+
+      /**
+       * keep-alive 最后无论是否命中缓存都需要返回 vnode。
+       * 区别在于 vnode 上的 componentInstance 和 keepAlive 属性。
+       */
       return vnode || (slot && slot[0])
     }
   };
@@ -5969,6 +6015,10 @@
     function createComponent (vnode, insertedVnodeQueue, parentElm, refElm) {
       var i = vnode.data;
       if (isDef(i)) {
+        /**
+         * 如果是已经被 keep-alive 缓存的组件，isReactivated === true
+         * 注意这里是 && componentInstance 和 keepAlive 都要满足
+         */
         var isReactivated = isDef(vnode.componentInstance) && i.keepAlive;
         if (isDef(i = i.hook) && isDef(i = i.init)) {
           i(vnode, false /* hydrating */);

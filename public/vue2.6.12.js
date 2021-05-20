@@ -2500,6 +2500,7 @@
     children,
     context
   ) {
+    debugger
     if (!children || !children.length) {
       return {}
     }
@@ -2524,6 +2525,9 @@
           slot.push(child);
         }
       } else {
+        /**
+         * 默认直接放进 default 中，$slot.default
+         */
         (slots.default || (slots.default = [])).push(child);
       }
     }
@@ -2547,6 +2551,7 @@
     normalSlots,
     prevSlots
   ) {
+    debugger
     var res;
     var hasNormalSlots = Object.keys(normalSlots).length > 0;
     var isStable = slots ? !!slots.$stable : !hasNormalSlots;
@@ -2673,13 +2678,18 @@
    */
   function renderSlot (
     name,
-    fallback,
+    fallback, // slot 的默认内容
     props,
     bindObject
   ) {
+    debugger
     var scopedSlotFn = this.$scopedSlots[name];
     var nodes;
     if (scopedSlotFn) { // scoped slot
+      /**
+       * 这里是具名插槽/作用域插槽的分支
+       * 
+       */
       props = props || {};
       if (bindObject) {
         if (!isObject(bindObject)) {
@@ -2692,6 +2702,9 @@
       }
       nodes = scopedSlotFn(props) || fallback;
     } else {
+      /**
+       * 普通插槽或具名插槽，直接通过 name 拿到对应的 vnode 即可，如果为空，就使用默认的插槽内容 fallback
+       */
       nodes = this.$slots[name] || fallback;
     }
 
@@ -2699,6 +2712,9 @@
     if (target) {
       return this.$createElement('template', { slot: target }, nodes)
     } else {
+      /**
+       * 普通插槽直接返回 vnode 了。
+       */
       return nodes
     }
   }
@@ -2891,6 +2907,7 @@
     hasDynamicKeys,
     contentHashKey
   ) {
+    debugger
     res = res || { $stable: !hasDynamicKeys };
     for (var i = 0; i < fns.length; i++) {
       var slot = fns[i];
@@ -3127,7 +3144,6 @@
     },
 
     prepatch: function prepatch (oldVnode, vnode) {
-      debugger
       var options = vnode.componentOptions;
       var child = vnode.componentInstance = oldVnode.componentInstance;
       updateChildComponent(
@@ -3184,6 +3200,8 @@
     if (isUndef(Ctor)) {
       return
     }
+
+    debugger
 
     var baseCtor = context.$options._base;
 
@@ -3263,6 +3281,8 @@
 
     // return a placeholder vnode
     var name = Ctor.options.name || tag;
+
+    debugger
     var vnode = new VNode(
       ("vue-component-" + (Ctor.cid) + (name ? ("-" + name) : '')),
       data, undefined, undefined, undefined, context,
@@ -3403,6 +3423,8 @@
       data.scopedSlots = { default: children[0] };
       children.length = 0;
     }
+
+    debugger
     if (normalizationType === ALWAYS_NORMALIZE) {
       children = normalizeChildren(children);
     } else if (normalizationType === SIMPLE_NORMALIZE) {
@@ -3489,6 +3511,7 @@
     var options = vm.$options;
     var parentVnode = vm.$vnode = options._parentVnode; // the placeholder node in parent tree
     var renderContext = parentVnode && parentVnode.context;
+    debugger
     vm.$slots = resolveSlots(options._renderChildren, renderContext);
     vm.$scopedSlots = emptyObject;
     // bind the createElement fn to this instance
@@ -3532,6 +3555,7 @@
       var _parentVnode = ref._parentVnode;
 
       if (_parentVnode) {
+        debugger
         vm.$scopedSlots = normalizeScopedSlots(
           _parentVnode.data.scopedSlots,
           vm.$slots,
@@ -11399,6 +11423,7 @@
   }
 
   function genSlot (el, state) {
+    debugger
     var slotName = el.slotName || '"default"';
     var children = genChildren(el, state);
     var res = "_t(" + slotName + (children ? ("," + children) : '');

@@ -1429,6 +1429,7 @@
    * Object-based format.
    */
   function normalizeProps (options, vm) {
+    debugger
     var props = options.props;
     if (!props) { return }
     var res = {};
@@ -1523,6 +1524,7 @@
     child,
     vm
   ) {
+    debugger
     {
       checkComponents(child);
     }
@@ -1610,6 +1612,7 @@
     propsData,
     vm
   ) {
+    debugger
     var prop = propOptions[key];
     var absent = !hasOwn(propsData, key);
     var value = propsData[key];
@@ -2273,6 +2276,7 @@
     Ctor,
     tag
   ) {
+    debugger
     // we are only extracting raw values here.
     // validation and default values are handled in the child
     // component itself.
@@ -3127,7 +3131,6 @@
     },
 
     prepatch: function prepatch (oldVnode, vnode) {
-      debugger
       var options = vnode.componentOptions;
       var child = vnode.componentInstance = oldVnode.componentInstance;
       updateChildComponent(
@@ -3181,6 +3184,7 @@
     children,
     tag
   ) {
+    debugger
     if (isUndef(Ctor)) {
       return
     }
@@ -3231,6 +3235,10 @@
       transformModel(Ctor.options, data);
     }
 
+    /**
+     * 父组件在这里生成需要传给子组件的 props 值。
+     */
+    debugger
     // extract props
     var propsData = extractPropsFromVNodeData(data, Ctor, tag);
 
@@ -3261,6 +3269,7 @@
     // install component management hooks onto the placeholder node
     installComponentHooks(data);
 
+    debugger
     // return a placeholder vnode
     var name = Ctor.options.name || tag;
     var vnode = new VNode(
@@ -4137,7 +4146,7 @@
     // used them during render
     vm.$attrs = parentVnode.data.attrs || emptyObject;
     vm.$listeners = listeners || emptyObject;
-
+    debugger
     // update props
     if (propsData && vm.$options.props) {
       toggleObserving(false);
@@ -4152,6 +4161,7 @@
       // keep a copy of raw propsData
       vm.$options.propsData = propsData;
     }
+    debugger
 
     // update listeners
     listeners = listeners || emptyObject;
@@ -4634,6 +4644,7 @@
   }
 
   function initState (vm) {
+    debugger
     vm._watchers = [];
     var opts = vm.$options;
     if (opts.props) { initProps(vm, opts.props); }
@@ -4650,6 +4661,7 @@
   }
 
   function initProps (vm, propsOptions) {
+    debugger
     var propsData = vm.$options.propsData || {};
     var props = vm._props = {};
     // cache prop keys so that future props updates can iterate using Array
